@@ -8,6 +8,10 @@
 \usepackage{amsmath}
 \usepackage{verbatim}
 \usepackage{hyperref}
+\usepackage{tikz}
+\usetikzlibrary{matrix}
+
+\tikzstyle{block} = [draw, rectangle, minimum height=2em, minimum width=4em]
 
 \setlength\parindent{0pt} % Removes all indentation from paragraphs
 
@@ -32,7 +36,7 @@ Assignment report} % Title
 \section{Part 1}
 \subsection{Forward kinematics} 
 
-According with the diagram of the Lynxmotion robot depicted in figure \ref{fig:forward.diagram} the correspondig Denavit-Harterverg table using distal convention is:
+According with the diagram of the Lynxmotion robot depicted in figure \ref{fig:forward.diagram} the corresponding Denavit-Harterverg table using distal convention is:
 
 \begin{table}[h!]
 \centering
@@ -174,7 +178,28 @@ where $R$ is the rotation matrix of the fifth frame with respect to main frame a
 \right] = {}^0P
 \end{equation*}
 
-To perform the computing of the forward kinematics of the Lynxmotion it was created a function in Matlab that receives as input the vector $Q=[\theta_1 \theta_2 \theta_3 \theta_4 \theta_5]^T$ and it gives the position ${}^0P$ and orientation $R$ of the end effector as output. The code of the function can be found in appendix \ref{apendix:LynxFK}.
+To perform the computing of the forward kinematics of the Lynxmotion it was created a function in Matlab that receives as input the vector $Q=[\theta_1 \theta_2 \theta_3 \theta_4 \theta_5]^T$ and it gives the position ${}^0P$ and orientation $R$ of the end effector as output, as depicted in figure \ref{fig:forward.block_diagram}. The code of the function can be found in appendix \ref{apendix:LynxFK}.
+
+\begin{figure}
+\begin{center}
+\begin{tikzpicture}
+	\matrix [ row sep = .375cm, column sep = .75cm, ]
+	{
+	\node (Q_INPUT) {$\left[ \begin{array}{c}
+	\theta_1 \\
+	\theta_2 \\
+	\theta_3 \\
+	\theta_4 \\
+	\theta_5 \\ \end{array} \right]$}; &
+	\node (FK) [block]{\parbox[c]{1.2in}{Forward kinematics \\ \textit{LynxFK}}}; &
+	\node (PR_OUTPUT) {$\begin{aligned}P\\R\end{aligned}$}; \\};
+	\draw[->](Q_INPUT)-{}(FK);
+	\draw[->](FK)-{}(PR_OUTPUT);
+\end{tikzpicture}
+\caption{Forward kinematics diagram}
+\label{fig:forward.block_diagram}
+\end{center}
+\end{figure}
 
 \subsection{Workspace}
 To have a representation of the workspace, it was necessary to measure the physical operational range of every joint in order to establish the domain of every variable $\theta_i$, the results are in table \ref{tab:workspace.range}.
@@ -465,14 +490,94 @@ The points where chosen by inspecting the workspace and placing them in the work
 \end{center}
 \end{figure}
 
+\begin{figure}
+\begin{center}
+\includegraphics[width=\textwidth]{images/Workspace_Points}
+\caption{Workspace and chosen points}
+\label{fig:points.ws_points}
+\end{center}
+\end{figure}
+
 \subsection{Forward kinematics test}
-In order to test the forward kinematics po
+In order to test the forward kinematics for every point, it was given the set of joint values as input to the \textit{LynxFK} function and verify that this configuration is in the workspace of the robot. This test will give as output the position and the orientation of the end effector for the given configuration.
+
+At the end of the test the variables representing the points and orientations, were saved into a file for ease usage, will be given as input for inverse kinematics. 
 
 \subsection{Inverse kinematics test and animation}
+The inverse kinematics is a bit more difficult than the forward kinematics test. It makes use of the set of points, that were previously generated and saved into a file and referred as the pair $P$ and $R$, to compute the values of joint angles that will allow the robot to reach de desired point, namely $\theta_i^{\prime}$. Later, in order to validate the results of the inverse kinematics process, the robot will compute the forward kinematics using the given output which should produce a new set of points, called $P^{\prime}$ and $R^{\prime}$, which should be very similar to those used as input for inverse kinematics. This process is depicted by figure \ref{fig:inverse_test.diagram}.
+
+\begin{figure}
+\begin{center}
+\begin{tikzpicture}
+	\matrix [ row sep = .375cm, column sep = .75cm, ]
+	{
+	\node (PR_INPUT) {$\begin{aligned}P\\R\end{aligned}$}; &
+	\node (IK) [block]{\parbox[c]{1.2in}{Inverse kinematics \\ \textit{LynxIK}}}; &
+	\node (Q_OUTPUT) {$\left[ \begin{array}{c}
+	\theta_1^{\prime} \\
+	\theta_2^{\prime} \\
+	\theta_3^{\prime} \\
+	\theta_4^{\prime} \\
+	\theta_5^{\prime} \\ \end{array} \right]$}; &
+	\node (FK) [block]{\parbox[c]{1.2in}{Forward kinematics \\ \textit{LynxFK}}}; &
+	\node (PR_OUTPUT) {$\begin{aligned}P^{\prime}\\R^{\prime}\end{aligned}$}; \\
+	};
+	
+	\draw[->](PR_INPUT)-{}(IK);
+	\draw[->](IK)-{}(Q_OUTPUT);
+	\draw[->](Q_OUTPUT)-{}(FK);
+	\draw[->](FK)-{}(PR_OUTPUT);
+\end{tikzpicture}
+\caption{Inverse kinematics diagram}
+\label{fig:inverse_test.diagram}
+\end{center}
+\end{figure}
+
+To provide a quantitative way to measure the performance of the result the error, let's say $e_i$, between the desired position ($P$) and the obtained using the angles of the inverse kinematic ($P_i^{\prime}$) at the point $i$.  The results for the first solution are shown in table \ref{tab:inverse_test.error}.
+
+\begin{equation}
+e_i=P_i-P_i^{\prime}
+\end{equation}
+
+\begin{table}[h!]
+\centering
+\begin{tabular}{ c | c c c || c}
+ $e_i$ 	& $e_x$ 		& $e_y$	& $e_z$		& $|e_i|$\\ \hline
+ 1 			& -0.7403 	& 0			& -0.8710		& 1.1432\\
+ 2 			& 0 				& 0			& 0				& 0\\ 
+ 3 			& 0 				& 0			& 0				& 0\\ 
+ 4 			& 0 				& 0			& 0				& 0\\ 
+ 5 			& 0 				& 0			& 0				& 0\\
+ 6 			& 0 				& 0			& 0				& 0\\
+ 7 			& 0 				& 0			& 0				& 0\\
+\end{tabular}
+\caption{Error of the resultant position, $e_i=P_i-P_i^{\prime}$}
+\label{tab:inverse_test.error}
+\end{table}
+
+\begin{figure}
+\begin{center}
+\includegraphics[width=\textwidth]{images/inverse_test}
+\caption{Workspace and chosen points}
+\label{fig:points.ws_points}
+\end{center}
+\end{figure}
 
 \subsection{Trajectories}
 
-\includegraphics[scale=1]{images/JointTrayectories}
+\subsubsection{Cubic polynomial}
+
+\begin{figure}
+\begin{center}
+\includegraphics[width=\textwidth]{images/JointTrayectories}
+\caption{Workspace and chosen points}
+\label{fig:points.ws_points}
+\end{center}
+\end{figure}
+
+\subsubsection{Straight line}
+
+\subsubsection{Object avoidance}
 
 \section{Part 2}
 
@@ -488,6 +593,10 @@ In order to test the forward kinematics po
 \subsection{Workspace (workspace script)}
 \label{apendix:workspace}
 \verbatiminput{code/Part1/workspace_script.m}
+
+\subsection{Inverse kinematics test (ik script)}
+\label{apendix:ik_test}
+\verbatiminput{code/Part1/ik_script.m}
 
 
 %----------------------------------------------------------------------------------------
