@@ -334,7 +334,7 @@ Therefore, we found the coordinates of frame 3 with respect to frame 1(namely $\
 \end{array} \right]
 \end{align}
 
-\begin{figure}
+\begin{figure}[htbp] 
 \begin{center}
 \includegraphics[width=\textwidth]{images/theta2,theta3}
 \caption{Graphical representation of the two solutions for $\theta_2$ and $\theta_3$, namely elbow left and elbow right}
@@ -586,7 +586,7 @@ e_i=P_i-P_i^{\prime}
 \section{Part 2}
 \subsection{Inverse Kinematics}
 The manipilator of this part is a planar parallel robot which applied in surgery. The schematic diagram is shown in  figure \ref{fig:Parallel}. The task is to find the solutions for $\psi_i$ and $\theta_i$ given the position coordiante of $C$ with respect to B and the rotation angle $a$ of the platform.
-\begin{figure}
+\begin{figure}[htbp] 
 \begin{center}
 \includegraphics[width=\textwidth]{images/Parallel}
 \caption{Planar Parallel Robot Kinematic Model}
@@ -631,20 +631,69 @@ For leg $i$ the coordinated for point $PP_i$, w.r.t to frame ${PB}$ are:
 
 \begin{equation}
 \label{eq:parallel_x_{ppi}}
-x_{pp_i} = r_Acos(\theta)+Lcos(\psi)
+x_{pp_i} = r_Acos\theta+Lcos\psi
 \end{equation}
 \begin{equation}
 \label{eq:parallel_y_{ppi}}
-y_{pp_i} = r_Asin(\theta)+Lsin(\psi)
+y_{pp_i} = r_Asin\theta+Lsin\psi
 \end{equation}
 
 Using the above two equations, $(\ref{eq:parallel_x_{ppi}})^2 + (\ref{eq:parallel_y_{ppi}})^2 $, we have
 \begin{equation}
-x_{pp_i}^2 + y_{pp_i}^2 - 2r_A(x_{pp_i}cos(\theta)+y_{pp_i}sin(\theta))+r_A^2-L^2 = 0
+\label{eq:parallel_algebra}
+x_{pp_i}^2 + y_{pp_i}^2 - 2r_A(x_{pp_i}cos\theta+y_{pp_i}sin\theta)+r_A^2-L^2 = 0
+\end{equation}
+For simplicity, we define three intermediate parameters to simplify the equation above
+\begin{equation}
+e_1 = -2y_{pp_i}r_A
+\qquad
+e_2 = -2x_{pp_i}r_A
+\qquad
+e_2 =x_{pp_i}^2+y_{pp_i}^2+r_A^2-L^2
 \end{equation}
 
+Hence, the euqation \ref{eq:parallel_algebra} can be written as
+\begin{equation}
+\label{eq:parallel_e}
+e_1sin\theta + e_2cos\theta + e_3 = 0
+\end{equation}
 
+Then, we define another intermediate parameter $t$ as $t=tan(\frac{\theta}{2})$, we have
+\begin{equation}
+sin\theta=\frac{2t}{1+t^2}\qquad and \qquad cos\theta=\frac{1-t^2}{1+t^2}
+\end{equation}
+Substituting them into equation \ref{eq:parallel_e} we derive a quadratic function 
+\begin{equation}
+(e_3-e_2)t^2+2e_1t+e_2+e_3=0
+\end{equation}
 
+The solutions can be solved by a generalized equation
+\begin{equation}
+t_{1,2}=\frac{-e_1\pm\sqrt{e_1^2+e_2^2-e_3^2}}{e_3-e_2}
+\end{equation}
+
+Therefore, there are 2 solutions for $sin\theta$ and $cos\theta$ individually, namely 2 solutions for $\theta$, they are
+\begin{equation}
+\theta_1 = atan2(sin\theta_1,cos\theta_1)\qquad and \qquad \theta_2 = atan2(sin\theta_2,cos\theta_2)
+\end{equation}
+
+After calculating $\theta$, $\psi$ can be worked out through geometric method as presented in figure \ref{fig:Parallel_psi}
+\begin{figure}[htbp] 
+\begin{center}
+\includegraphics[width=\textwidth]{images/Parallel_psi}
+\caption{geometric method for calculating $\psi$}
+\label{fig:Parallel_psi}
+\end{center}
+\end{figure}
+
+\begin{equation}
+tan\psi = \frac{PP_iE}{M_iE}=\frac{Y_{PP_i}-r_Asin\theta_i}{X_{PP_i}-r_Acos\theta_i}
+\end{equation}
+
+Theoratically, there should be 2 solutions for $\psi$ due the existence of $\theta1$ and $\theta2$, however, the result of $tan\psi$ is the same computed by $\theta1$ and $\theta2$. Therefore, $\psi$ is expressed as
+\begin{equation}
+\psi = atan2(Y_{PP_i}-r_Asin\theta_i,X_{PP_i}-r_Acos\theta_i )
+\end{equation}
 
 \subsection{Workspace}
 
