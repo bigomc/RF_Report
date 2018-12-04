@@ -581,9 +581,11 @@ e_i=P_i-P_i^{\prime}
 
 
 
+
+
 \section{Part 2}
 \subsection{Inverse Kinematics}
-The manipilator of this part is a planar parallel robot which applied in surgery. The schematic diagram is shown in  figure \ref{fig:Parallel}. The task is to find the solutions for $\psi_i$ and $\theta_i$ given the position coordiante with respect to B and the rotation angle $a$ of the platform.
+The manipilator of this part is a planar parallel robot which applied in surgery. The schematic diagram is shown in  figure \ref{fig:Parallel}. The task is to find the solutions for $\psi_i$ and $\theta_i$ given the position coordiante of $C$ with respect to B and the rotation angle $a$ of the platform.
 \begin{figure}
 \begin{center}
 \includegraphics[width=\textwidth]{images/Parallel}
@@ -598,8 +600,48 @@ The core thinking is that finding the coordinate of $PP_i$ regarding to $PB_i$, 
 \overrightarrow{PB_i PP_i} = \overrightarrow{B PP_i} - \overrightarrow{B PB_i}
 \end{equation}
 
+Where, $\overrightarrow{B PB_i}$ is known since ponint $B$ and $PB_i$ is fixed. Then $\overrightarrow{B PP_i}$ can be derived by vector chain again, which is
+\begin{equation}
+\label{eq:parallel_BPP}
+\overrightarrow{B PP_i} = \overrightarrow{BC} + \overrightarrow{C PP_i} = \overrightarrow{BC} + Rot(z,a)\overrightarrow{C_0PP_0} 
+\end{equation}
+Where $Rot(z,a)$ is the rotation matrix which rorate around $Z$ axis for $a$ degree, $\overrightarrow{C_0PP_0}$ is the initial vector of $\overrightarrow{C PP_i}$ when $a=0$. Therefore, the equation (\ref{eq:parallel_BPP}) can be explicit according to known parameters ($X_c,Y_c$ are the coordinates of $C$,$r_{plat}$ is the radium of platform,$i$ is the number of legs)
 
+\begin{equation}
+\overrightarrow{B PP_i} =
+\left[\begin{array}{ccc}
+	X_c \\
+	Y_c \\
+	0 \\
+\end{array}\right] 
++ \left[\begin{array}{ccc}
+	cos(a) & -sin(a) & 0 \\
+	sin(a) & cos(a)  & 0 \\
+	0      & 0       & 1 \\
+\end{array}\right]
+\left[\begin{array}{ccc}
+	r_{plat}cos(a+pi/2+(i-1)2pi/3) \\
+	r_{plat}sin(a+pi/2+(i-1)2pi/3) \\
+	0      \\
+\end{array}\right]
+\end{equation}
 
+Thus, $\overrightarrow{PB_i PP_i}$ has been worked out and it can be applied to calculate $\psi_i$ and $\theta_i$ in the $RR$ planar manipulator. Some pure algebra methods are applied subsequently.
+For leg $i$ the coordinated for point $PP_i$, w.r.t to frame ${PB}$ are:
+
+\begin{equation}
+\label{eq:parallel_x_{ppi}}
+x_{pp_i} = r_Acos(\theta)+Lcos(\psi)
+\end{equation}
+\begin{equation}
+\label{eq:parallel_y_{ppi}}
+y_{pp_i} = r_Asin(\theta)+Lsin(\psi)
+\end{equation}
+
+Using the above two equations, $(\ref{eq:parallel_x_{ppi}})^2 + (\ref{eq:parallel_y_{ppi}})^2 $, we have
+\begin{equation}
+x_{pp_i}^2 + y_{pp_i}^2 - 2r_A(x_{pp_i}cos(\theta)+y_{pp_i}sin(\theta))+r_A^2-L^2 = 0
+\end{equation}
 
 
 
