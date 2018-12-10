@@ -25,7 +25,8 @@
 \title{Robots Fundamentals:\\
 Assignment report} % Title
 
-\author{Rodrigo \textsc{Moreno Carrillo}} % Author name
+\author{Rodrigo \textsc{Moreno Carrillo} \\
+			Mang \textsc{Ning}} % Author name
 
 \date{\today} % Date for the report 
 \begin{document}
@@ -559,29 +560,70 @@ e_i=P_i-P_i^{\prime}
 \begin{center}
 \includegraphics[width=\textwidth]{images/inverse_test}
 \caption{Workspace and chosen points}
-\label{fig:points.ws_points}
+\label{fig:inverse_test.test}
 \end{center}
 \end{figure}
 
 \subsection{Trajectories}
+All the three kind of trajectories were accomplished and combined to achieve a single task.
+\subsubsection{Polynomial trajectories}
+The approach used to implement the desired trajectories for the robot was to use via point to create the paths to be followed and therefore compute the coefficients of the polynomials that best fit to those paths.
 
-\subsubsection{Cubic polynomial}
+The considered polynomial trajectory was 4-3-4. This means that the first and last trajectory is a polynomial of fourth degree whilst for the inner trajectories a polynomial of third degree is used.
+
+\begin{equation}
+q(t) = 
+  \begin{cases} 
+  q_1(t)= a_5t^5 + a_4t^4 + a_3t^3 + a_2t^2 + a_1t + a_0 & : t_0 \leq t < t_1 \\
+   q_2(t)= b_3t^3 + b_2t^2 + b_1t + b_0 & : t_1 \leq t < t_2 \\
+   q_3(t)= c_5t^5 + c_4t^4 + c_3t^3 + c_2t^2 + c_1t + c_0 & : t_2 \leq t < t_f
+  \end{cases}
+\end{equation}
+
+Finally, to provide the trajectory its only necessary to compute the values of the coefficients to fully describe the piecewise trajectory at the desired points.
+
+\subsubsection{Straight line}
+In order to implement an straight line between the chosen points it was created a line between them, using the parametric form of the equation of the line in 3D where the parameter in this case is the time, and uniformly sampled to get the via points that the robot should follow using the polynomial trajectory.
+
+\begin{equation}
+\mathbf{p}=\mathbf{u}t + \mathbf{p_0}
+\end{equation}
+
+Where, $\mathbf{p}$, $\mathbf{u}$, $\mathbf{p_0}$ $\in R^3$. If the times at every chosen point is known, the direction vector $\mathbf{u}$ and point $\mathbf{p_0}$ can be computed therefore the line can be sampled giving the position along the line that connect the desired points as a function of time. 
+
+For this case the orientation was considered to be constant so the position and the orientation is known and by performing the inverse kinematics for every sample on the line a trajectory can be computed using the first and last point as starting and ending point respectively and the inner points as via points using the approach described previously.
+
+\subsubsection{Object avoidance}
+For the object avoidance requirement, the approach used to compute the trajectory that avoid a collision with an an obstacle consist in sampling a straight line in the same way as before but once the sampled points are known the next step is to relocate them in order to avoid the obstacle.
+
+\begin{equation}
+\label{eq:trajectories.displacement}
+\mathbf{d}=\frac{R_k}{||\mathbf{r}||^2}\frac{\mathbf{r}}{||\mathbf{r}||}
+\end{equation}
+
+To relocate the points the equation \ref{eq:trajectories.displacement} was used to compute the displacement, where $\mathbf{r}$ is the vector from the obstacle to a via point, $R_k$ is a repulsive constant and $d$ is displacement vector. Later the displacement is added to the analysed point to get the new position.
+
+\begin{equation}
+\mathbf{p}^{\prime}=\mathbf{p}+\mathbf{d}
+\end{equation}
+
+In figure \ref{fig:trajectories.cartesian} it can be observed that the obstacle modify the last trajectory due to the relocation of the via points.
 
 \begin{figure}
 \begin{center}
-\includegraphics[width=\textwidth]{images/JointTrayectories}
+\includegraphics[width=\textwidth]{images/Trajectory_Joint}
 \caption{Workspace and chosen points}
-\label{fig:points.ws_points}
+\label{fig:trajectories.joints}
 \end{center}
 \end{figure}
 
-\subsubsection{Straight line}
-
-\subsubsection{Object avoidance}
-
-
-
-
+\begin{figure}
+\begin{center}
+\includegraphics[width=\textwidth]{images/Trajectory_Cartesian}
+\caption{Workspace and chosen points}
+\label{fig:trajectories.cartesian}
+\end{center}
+\end{figure}
 
 \section{Part 2}
 \subsection{Inverse Kinematics}
@@ -717,10 +759,66 @@ It is obvious from the picture that different angle $a$ correspond to various sh
 \end{center}
 \end{figure}
 
+\section{Part 3}
+\subsection{Rodrigo Moreno Carrillo}
+According to \citep{buss2004introduction,barinka2002inverse} there are several methods to solve the inverse kinematics problem. For this part I decided to analyse other approach of solving this problem. The method I decided to evaluate was an iterative method using the pseudo inverse of the Jacobian matrix, similar to the one used in \citep{bhatti2014forward}.
 
+\begin{equation}
+x=f(\theta)
+\end{equation}
 
+The idea behind this method is that by performing a change in the joint space will bring as a consequence  change in the Cartesian space, this is described by forward kinematics. Therefore if the current configuration is known it is possible to compute the position of the end effector and if the desired position is very close to current position only a slight change in the configuration is needed to achieve that desired position.
 
+\begin{equation}
+\label{eq:part3.jacobian_relation}
+dx=J(\theta)d\theta
+\end{equation}
 
+The relationship between a small change in the joint space and the change in the Cartesian space is given  by (\ref{eq:part3.jacobian_relation}), where $J(\theta)$ is the Jacobian matrix that is defined as:
+
+\begin{equation}
+J(\theta)=  \left[
+\begin{array}{ccc}
+	\frac{\partial f_1}{\partial x_1} & \cdots & \frac{\partial f_1}{\partial x_n} \\
+	\vdots & \ddots & \vdots \\
+	\frac{\partial f_m}{\partial x_1} & \cdots & \frac{\partial f_m}{\partial x_n} \\
+\end{array}
+\right] 
+\end{equation}
+
+As a consequence, the inverse kinematics problem can be solved by knowing the difference between the current configuration and the configuration that arrives to de desired position, let name it $\Delta\theta$.
+
+\begin{equation}
+\theta_d=\theta+\Delta\theta
+\end{equation}
+
+If $\Delta\theta$ is considered to be small it can be computed by using inverse jacobian as expressed in (\ref{eq:part3.delta_relation}). Usually as the inverse of jacobian matrix not always exists, it is necessary to use the pseudo-inverse as denoted by \citep{penrose1955generalized}.
+
+\begin{equation}
+\label{eq:part3.delta_relation}
+\Delta\theta \approx  J(\theta)^{*}\Delta x
+\end{equation}
+
+where $J(\theta)^{*}$ is the pseudo-inverse and is computed using (\ref{eq:part3.pseudo_inverse}). The value of $\Delta x$ is the difference or the error between the current position and the desired position 
+
+\begin{equation}
+\label{eq:part3.pseudo_inverse}
+J(\theta)^{*} = J(\theta)^T(J(\theta)J(\theta)^T)^-1
+\end{equation}
+
+Furthermore, a step factor can be added to the equation and completely get the joint values that reduces error and get closer to the desired position.
+
+\begin{equation}
+\begin{aligned}
+\theta & = \theta + \alpha\Delta\theta \\
+& = \theta + \alpha J(\theta)^{*}e \\
+&=  \theta + \alpha J(\theta)^{*}(\theta_d - \theta)
+\end{aligned}
+\end{equation}
+
+Finally, the current joint values are updated using small steps, controlled by $\alpha$, until the error is zero or very close to zero, where can present oscillations  due to the value of $\alpha$ and the precision of the robot.
+
+\subsection{Mang Ning}
 
 
 
@@ -751,7 +849,8 @@ It is obvious from the picture that different angle $a$ correspond to various sh
 %	BIBLIOGRAPHY
 %----------------------------------------------------------------------------------------
 
-\bibliographystyle{plain}
-%\bibliography{sample}
+\bibliographystyle{abbrvnat}
+\setcitestyle{authoryear,open={(},close={)}}
+\bibliography{biblio}
 
 \end{document}
