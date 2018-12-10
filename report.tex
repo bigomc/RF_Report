@@ -37,7 +37,7 @@ Assignment report} % Title
 \section{Part 1}
 \subsection{Forward kinematics} 
 
-According with the diagram of the Lynxmotion robot depicted in figure \ref{fig:forward.diagram} the corresponding Denavit-Harterverg table using distal convention is:
+According with the diagram of the Lynxmotion robot depicted in figure \ref{fig:forward.diagram} the corresponding Denavit-Harterverg table based on distal convention is:
 
 \begin{table}[h!]
 \centering
@@ -53,7 +53,7 @@ According with the diagram of the Lynxmotion robot depicted in figure \ref{fig:f
 \label{tab:forward.dh}
 \end{table}
 
-In the diagram it is shown that the robot contains five different frames of reference which are described using the parameters in table \ref{tab:forward.dh}. Using these four parameters the frames can be described by the following equations:
+The diagram shows that the robot contains five different reference frames which are described by the parameters in table \ref{tab:forward.dh}. Correspondingly, the homogeneous transformation between frames can be described as below:
 
 \begin{equation}
 \label{eq:forward.t_01}
@@ -132,15 +132,15 @@ d_5 = 3.2 [cm]
 \end{center}
 \end{figure}
 
-Every matrix represents the orientation and displacement of every frame with respect to the previous reference frame. In order to derive the forward kinematics of the robots it is necessary to know the orientation and position of the end effector, the frame at the point $O_5$, with respect to the main reference frame which is the frame with origin at point $O_0$.
+Every matrix represents the orientation and displacement of each frame regarding to the previous frame. In order to derive the forward kinematics of the robots it is necessary to know the orientation and position of the end effector, the frame at the point $O_5$, with respect to the world frame whose origin is at point $O_0$.
 
-In order to know the position and orientation of the end effector after several rotations has been performed, due to the movement of the joints, it is necessary to use the relationship
+According to the rule of matirx multiplication, $\T{0}{5}$ can be derived from
 
 \begin{equation}
 \T{0}{5} = \T{0}{1} \T{1}{2}\T{2}{3}\T{3}{4}\T{4}{5}
 \end{equation}
 
-After performing the matrix product, the resultant matrix will be the homogeneous matrix that represents the orientation and position of the frame attached at the end effector, and it will have the following form:
+Thus, the resultant matrix will be a homogeneous matrix that represents the orientation and position of the frame attached at the end effector. It will have the variables $\theta_1 ... \theta_5$ and have the following form:
 
 \begin{subequations}
 \begin{align}
@@ -161,7 +161,7 @@ After performing the matrix product, the resultant matrix will be the homogeneou
 \end{align}
 \end{subequations}
 
-where $R$ is the rotation matrix of the fifth frame with respect to main frame and ${}^0O_5$ is the coordinate vector of point $O_5$ with respect to main frame. This point is also the desired point of the end effector. This matrix is a function of the variables $\theta_1 ... \theta_5$.
+where $R$ is the rotation matrix of the fifth frame and ${}^0O_5$ is the coordinate vector of point $O_5$ with respect to the world frame. ${}^0O_5$  is also the desired point of the end effector.
 
 \begin{equation*}
 {}^0O_5 = \left[
@@ -179,7 +179,7 @@ where $R$ is the rotation matrix of the fifth frame with respect to main frame a
 \right] = {}^0P
 \end{equation*}
 
-To perform the computing of the forward kinematics of the Lynxmotion it was created a function in Matlab that receives as input the vector $Q=[\theta_1 \theta_2 \theta_3 \theta_4 \theta_5]^T$ and it gives the position ${}^0P$ and orientation $R$ of the end effector as output, as depicted in figure \ref{fig:forward.block_diagram}. The code of the function can be found in appendix \ref{apendix:LynxFK}.
+To compute the forward kinematics in Matlab, a function is created to receive the vector $Q=[\theta_1 \theta_2 \theta_3 \theta_4 \theta_5]^T$ as input and output the position ${}^0P$ and orientation $R$ of the end effector, which is depicted in figure \ref{fig:forward.block_diagram}. The codes of the function are in appendix \ref{apendix:LynxFK}.
 
 \begin{figure}
 \begin{center}
@@ -203,7 +203,7 @@ To perform the computing of the forward kinematics of the Lynxmotion it was crea
 \end{figure}
 
 \subsection{Workspace}
-To have a representation of the workspace, it was necessary to measure the physical operational range of every joint in order to establish the domain of every variable $\theta_i$, the results are in table \ref{tab:workspace.range}.
+The operational range of every joint variales $\theta_i$ is necessary for tracing out the workspace of the robot.  The relevant parameters are in table \ref{tab:workspace.range}.
 
 \begin{table}[h!]
 \centering
@@ -219,7 +219,7 @@ $\theta_5$	& [-90, 90]
 \label{tab:workspace.range}
 \end{table}
 
-Once the range of the variables has been determined, it can be simulated the movement of every joint in its corresponding operational range to create a representation of the reachable 3D space. The space generated by all the points that can be reached by the end effector of the robot is called workspace. The used code to perform the simulation can be found in appendix \ref{apendix:lynx_workspace}.
+Once the range of the variables has been determined, the movement of every joint can be simulated to create a reachable 3D space for the end effector. The related simulation code can be found in appendix \ref{apendix:lynx_workspace}.
 
 \begin{figure}
 \begin{center}
@@ -229,20 +229,20 @@ Once the range of the variables has been determined, it can be simulated the mov
 \end{center}
 \end{figure}
 
-The workspace of the Lynxmotion robot is depicted in figure \ref{fig:workpace.workspace}, the picture shows a 3D view of the space, while the other three view shows the planes YX, ZX and ZY respectively.
+Figure \ref{fig:workpace.workspace} presents the workspace of the Lynxmotion robot. Specifically, the top left picture shows a 3D view of the space, while the others intuitively present a 2D view in the planes of YX, ZX and ZY respectively.
 
 \subsection{Inverse kinematics}
-The concept of inverse kinematics is finding joint valuables given the specific position and orientation of the end effector. Concretely, there are five joints valuables need to be worked out, namely  $\theta_1$,  $\theta_2$,  $\theta_3$,  $\theta_4$,  $\theta_5$.
+The purpose of inverse kinematics is to find the joint valuables given the specific position and orientation of the end effector. Concretely, there are five joints valuables need to be worked out, namely  $\theta_1$,  $\theta_2$,  $\theta_3$,  $\theta_4$,  $\theta_5$.
 
 \subsubsection{Finding  $\theta_1$}
-Since the x and y position of the end effector are only decided by the rotation of joint 1, we can project the manipulator into the horizontal plane of the frame 0. Therefore, we can derive the expression of  $\theta_1$ as
+Since the x and y position of the end effector are only decided by the rotation of joint 1, we can project the manipulator into the horizontal plane of the world frame. Therefore, we can derive the expression of  $\theta_1$
 
 \begin{equation}
 \theta_1 = atan2(Py, Px)
 \end{equation}
 
 \subsubsection{Finding  $\theta_2$, $\theta_3$}
-In order to simplify the configuration, we can extract link 2 and link 3 from the whole manipulator, hence the link 2 and link 3 would be a planar mechanism. The next step is to find the origin coordinates of frame 3 with respect to frame 1, namely $\O{1}{3}$, which can be derived from the matrix of $\T{1}{3}$. Furthermore, $\T{1}{3}$ can be expressed as the product
+For simplifying the configuration, we can extract link 2 and link 3 from the whole manipulator, hence the link 2 and link 3 would be a planar mechanism. The next step is to find the origin coordinates of frame 3 regarding frame 1, namely $\O{1}{3}$, which can be derived from the matrix of $\T{1}{3}$. Furthermore, $\T{1}{3}$ can be expressed as the product
 
 \begin{align}
 \label{eq:inverse.t_13}
@@ -373,10 +373,10 @@ where
 \sin(b)= \frac{a_3\s{3}}{\sqrt{\O{1}{3x}^2+\O{1}{3y}^2}}
 \end{equation*}
 
-Accordingly with the dependency of $\theta_2$ on the value of $\theta_3$, this variable will also have two solutions. The set of two solutions for both variables, creates the two possible configurations, elbow right for $\theta_3^+$ and elbow left for $\theta_3^-$, as depicted in figure \ref{fig:theta_2,theta_3}.
+Due to the dependence of $\theta_2$ and $\theta_3$,  $\theta_2$ will also have two solutions. The two sets of solutions create two possible configurations, elbow right for $\theta_3^+$ and elbow left for $\theta_3^-$, which are depicted in figure \ref{fig:theta_2,theta_3}.
 
 \subsubsection{Finding $\theta_4$}
-The algebraic was used method to work out $\theta_4$. The core idea is building an equation of $\theta_4$ from the element of transformation matrix $\T{3}{5}$.Now,$\theta_1$, $\theta_2$, $\theta_3$ are already known. Combined with  $\T{0}{5}$,  $\T{3}{5}$ can be derived from
+The algebraic method is used to work out $\theta_4$. The core idea is building an equation of $\theta_4$ from the element of transformation matrix $\T{3}{5}$.Now,$\theta_1$, $\theta_2$, $\theta_3$ are already known. Combined with  $\T{0}{5}$,  $\T{3}{5}$ can be derived from
 
 \begin{align}
 \label{eq:inverse.t_35}
@@ -392,7 +392,7 @@ where
 \T{3}{0} = \T{3}{2}\T{2}{1}\T{1}{0} 
 \end{equation}
 
-Each element on the right side of equation \ref{eq:inverse.t_35} depends on $\theta_1$, $\theta_2$ and $\theta_3$ which are already known. It is important to remark that there exists two versions of $\T{3}{2}$ and $\T{2}{1}$ as there are two solutions. Therefore, $\T{3}{5}$ will have two versions, both with a form like this:
+Each element on the right side of equation \ref{eq:inverse.t_35} depends on $\theta_1$, $\theta_2$ and $\theta_3$ which are already known. It is vital to mention that there exists two versions of $\T{3}{2}$ and $\T{2}{1}$ as there are two solutions. Therefore, $\T{3}{5}$ will have two versions and both have the form:
 
 \begin{equation}
 \label{eq:inverse.t_35_expanded}
@@ -406,7 +406,7 @@ Each element on the right side of equation \ref{eq:inverse.t_35} depends on $\th
 \right] 
 \end{equation}
 
-On the other hand, another way to get $\T{3}{5}$ with variable $\theta_4$ is as a product of matrix (\ref{eq:forward.t_34}) and matrix (\ref{eq:forward.t_45}), which is
+Another way to get $\T{3}{5}$ with variable $\theta_4$ is multiplying matrix (\ref{eq:forward.t_34}) and matrix (\ref{eq:forward.t_45}).
 
 \begin{equation}
 \begin{aligned}
@@ -453,7 +453,7 @@ therefore
 As a result of the two versions of (\ref{eq:inverse.t_35_expanded}), $\theta_4$ will also have two solutions that must be computed in the same way for both configurations.
 
 \subsubsection{Finding $\theta_5$}
-The method of calculating $\theta_5$ is the similar to finding $\theta_4$. we try to get the matrix  $\T{4}{5}$ from two ways. The one with variable $\theta_5$ is obviously expressed in equation \ref{eq:forward.t_45}.
+The method of calculating $\theta_5$ is similar to finding $\theta_4$. we try to get the matrix  $\T{4}{5}$ from two ways. The one with variable $\theta_5$ is obviously expressed in equation \ref{eq:forward.t_45}.
 
 Another means of representing $\T{4}{5}$ is 
 \begin{equation}
@@ -464,9 +464,9 @@ where
 \begin{equation*}
 \T{4}{0} = \T{4}{3}\T{3}{0}
 \end{equation*}
-Therefore, the equation (\ref{eq:inverse.t_45}) depends on the inverse of (\ref{eq:forward.t_34}), (\ref{eq:inverse.t_03}) and $\T{0}{5}$ which is given as the desired position and orientation. 
+consequently, the equation (\ref{eq:inverse.t_45}) depends on the inverse of (\ref{eq:forward.t_34}), (\ref{eq:inverse.t_03}) since $\T{0}{5}$ is a known condition. 
 
-It seems that $\theta_5$ should also have two solutions since $\s{4}$ and $\c{4}$ have 2 pairs of solutions and the expression of $\T{4}{0}$ contains $\s{4}$ and $\c{4}$. Whereas, it turns out that $\T{4}{0}$ only have one value due to the same computing result of 2 pairs of $\s{4}$ and $\c{4}$.For simplicity, we use (a,b) to represent each element of $\T{4}{5}$(a,b are the numble of rows and columns). Thus, $\s{5}$ and $\c{5}$ can be written as
+It seems that $\theta_5$ should also have two solutions since $\s{4}$ and $\c{4}$ have 2 pairs of solutions and the expression of $\T{4}{0}$ contains $\s{4}$ and $\c{4}$. Whereas, it turns out that $\T{4}{0}$ only have one value due to the same computing result of 2 pairs of $\s{4}$ and $\c{4}$.For simplicity, (a,b) is used to represent each element of $\T{4}{5}$(a,b are the numble of rows and columns). so, $\s{5}$ and $\c{5}$ can be written as
 
 \begin{equation}
 \s{5} = \T{4}{5}(2,1)
