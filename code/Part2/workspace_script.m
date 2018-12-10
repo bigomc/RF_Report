@@ -12,10 +12,10 @@ Xc = linspace(-150, 150, sample);
 Yc = linspace(-150, 150, sample);
 a = 30
 
-%% 
+%%
 for xc = Xc
     for yc = Yc
-        T1 = []; T2 = [];  % for each data set(Xc,Yc,a)£¬reset T1,T2 as none for subsequent judgement
+        T1 = []; T2 = [];  %for each data set(Xc,Yc,a) reset T1,T2 as none for subsequent judgement
         for i=1:3
             A = [R*cosd(90+(i-1)*120),R*sind(90+(i-1)*120),0]';
             P = [r*cosd(90+(i-1)*120), r*sind(90+(i-1)*120),0]';
@@ -55,4 +55,4 @@ Ai = [Ai,Ai(:,1)];
 plot(Ai(1,:),Ai(2,:),'r')
 hold on
 scatter(Xw,Yw,20,'filled','c')
-text(-280,220,'workspace of a=30¡ã','Color','c','FontSize',12)
+text(-280,220,'workspace of a=30','Color','c','FontSize',12)
