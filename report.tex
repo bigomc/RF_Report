@@ -479,9 +479,9 @@ Hence,the solutions of $\theta_5$ is
 \end{equation}
 
 \subsection{Task plan}
-The chosen task was to imagine the problem of taking three objects and stick them to a wall, this might be considered as a pick and place task. In this case the robot should take an object and take it to its final position, then take the second object and place it in the second position and finally perform the same process for the last object.
+The chosen task is to simulate the process of picking three objects and stick them on a wall. In this case the robot should take an object and move it to the target position, then repeat this operation for the remaining twe objects.
 
-The points where chosen by inspecting the workspace and placing them in the workspace of the robot. They can be seen in the chart of figure \ref{fig:points.points}.
+These points are chosen inside the workspace, the detail can be seen in the figure \ref{fig:points.points}.
 
 \begin{figure}
 \begin{center}
@@ -500,12 +500,15 @@ The points where chosen by inspecting the workspace and placing them in the work
 \end{figure}
 
 \subsection{Forward kinematics test}
-In order to test the forward kinematics for every point, it was given the set of joint values as input to the \textit{LynxFK} function and verify that this configuration is in the workspace of the robot. This test will give as output the position and the orientation of the end effector for the given configuration.
 
-At the end of the test the variables representing the points and orientations, were saved into a file for ease usage, will be given as input for inverse kinematics. 
+The aim of this section is to generate the position and the orientation parameters of the end effector for those selected six points above.
+
+To execute the experiment,the \textit{LynxFK} function is created to take a set of joint values as input and output the corresponding orientation and position information for a particular robot configuration.
+
+For convenience of subsequent inverse kinematics test, the outcomes of the forward kinematics test are saved into a file. 
 
 \subsection{Inverse kinematics test and animation}
-The inverse kinematics is a bit more difficult than the forward kinematics test. It makes use of the set of points, that were previously generated and saved into a file and referred as the pair $P$ and $R$, to compute the values of joint angles that will allow the robot to reach de desired point, namely $\theta_i^{\prime}$. Later, in order to validate the results of the inverse kinematics process, the robot will compute the forward kinematics using the given output which should produce a new set of points, called $P^{\prime}$ and $R^{\prime}$, which should be very similar to those used as input for inverse kinematics. This process is depicted by figure \ref{fig:inverse_test.diagram}.
+Compared with forward kinematics, inverse kinematics works in an oppisite way. It calcultes the set of joint values ($\theta_i^{\prime}$) through loading the pair data $P$ and $R$ which are stored in the previous files. Then, in order to validate the results of the inverse kinematics process, the robot will compute the forward kinematics using the given output which should produce a new set of points, called $P^{\prime}$ and $R^{\prime}$, which should be very similar to those used as input for inverse kinematics. This process is depicted by figure \ref{fig:inverse_test.diagram}.
 
 \begin{figure}
 \begin{center}
@@ -534,7 +537,7 @@ The inverse kinematics is a bit more difficult than the forward kinematics test.
 \end{center}
 \end{figure}
 
-To provide a quantitative way to measure the performance of the result the error, let's say $e_i$, between the desired position ($P$) and the obtained using the angles of the inverse kinematic ($P_i^{\prime}$) at the point $i$.  The results for the first solution are shown in table \ref{tab:inverse_test.error}.
+To provide a quantitative measure of the result, an error function is defined as $e_i$ to compute the difference between the desired position ($P$) and the obtained position ($P_i^{\prime}$) at the point $i$.  The results of the first solution are shown in table \ref{tab:inverse_test.error}.
 
 \begin{equation}
 e_i=P_i-P_i^{\prime}
@@ -565,7 +568,7 @@ e_i=P_i-P_i^{\prime}
 \end{figure}
 
 \subsection{Trajectories}
-All the three kind of trajectories were accomplished and combined to achieve a single task.
+All three of these trajectories have been accomplished and combined to achieve a single task, which will be elaborated in the following.
 \subsubsection{Polynomial trajectories}
 The approach used to implement the desired trajectories for the robot was to use via point to create the paths to be followed and therefore compute the coefficients of the polynomials that best fit to those paths.
 
@@ -627,7 +630,7 @@ In figure \ref{fig:trajectories.cartesian} it can be observed that the obstacle 
 
 \section{Part 2}
 \subsection{Inverse Kinematics}
-The manipilator of this part is a planar parallel robot which applied in surgery. The schematic diagram is shown in  figure \ref{fig:Parallel}. The task is to find the solutions for $\psi_i$ and $\theta_i$ given the position coordiante of $C$ with respect to B and the rotation angle $a$ of the platform.
+The manipilator of this part is a planar parallel robot which applied in surgery. The schematic diagram is shown in  figure \ref{fig:Parallel}. Concretely, The task os this section is to find the solutions for $\psi_i$ and $\theta_i$ given the position coordiante of $C$ with respect to B and the rotation angle $a$ of the platform.
 \begin{figure}[htbp] 
 \begin{center}
 \includegraphics[width=\textwidth]{images/Parallel}
