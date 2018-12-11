@@ -37,7 +37,7 @@ Assignment report} % Title
 \section{Part 1}
 \subsection{Forward kinematics} 
 
-According with the diagram of the Lynxmotion robot depicted in figure \ref{fig:forward.diagram} the corresponding Denavit-Harterverg table based on distal convention is:
+According with the diagram of the Lynxmotion robot depicted in figure $\ref{fig:forward.diagram}$ the corresponding Denavit-Harterverg table based on distal convention is:
 
 \begin{table}[h!]
 \centering
@@ -53,7 +53,7 @@ According with the diagram of the Lynxmotion robot depicted in figure \ref{fig:f
 \label{tab:forward.dh}
 \end{table}
 
-The diagram shows that the robot contains five different reference frames which are described by the parameters in table \ref{tab:forward.dh}. Correspondingly, the homogeneous transformation between frames can be described as below:
+The robot contains five different reference frames which are described by the parameters in table \ref{tab:forward.dh}. Correspondingly, the homogeneous transformation between frames can be described as below:
 
 \begin{equation}
 \label{eq:forward.t_01}
@@ -132,7 +132,7 @@ d_5 = 3.2 [cm]
 \end{center}
 \end{figure}
 
-Every matrix represents the orientation and displacement of each frame regarding to the previous frame. In order to derive the forward kinematics of the robots it is necessary to know the orientation and position of the end effector, the frame at the point $O_5$, with respect to the world frame whose origin is at point $O_0$.
+In order to derive the forward kinematics of the robots it is necessary to know the orientation and position of the end effector, the frame at the point $O_5$, with respect to the world frame whose origin is at point $O_0$.
 
 According to the rule of matirx multiplication, $\T{0}{5}$ can be derived from
 
@@ -179,7 +179,7 @@ where $R$ is the rotation matrix of the fifth frame and ${}^0O_5$ is the coordin
 \right] = {}^0P
 \end{equation*}
 
-To compute the forward kinematics in Matlab, a function is created to receive the vector $Q=[\theta_1 \theta_2 \theta_3 \theta_4 \theta_5]^T$ as input and output the position ${}^0P$ and orientation $R$ of the end effector, which is depicted in figure \ref{fig:forward.block_diagram}. The codes of the function are in appendix \ref{apendix:LynxFK}.
+To compute the forward kinematics in Matlab, a function is created to receive the vector $Q=[\theta_1 \theta_2 \theta_3 \theta_4 \theta_5]^T$ as input and output the position ${}^0P$ and orientation $R$ of the end effector, which is depicted in figure \ref{fig:forward.block_diagram}.
 
 \begin{figure}
 \begin{center}
@@ -203,7 +203,7 @@ To compute the forward kinematics in Matlab, a function is created to receive th
 \end{figure}
 
 \subsection{Workspace}
-The operational range of every joint variales $\theta_i$ is necessary for tracing out the workspace of the robot.  The relevant parameters are in table \ref{tab:workspace.range}.
+The operational range of every joint variales $\theta_i$ is necessary for tracing out the workspace.  The relevant parameters are in table \ref{tab:workspace.range}.
 
 \begin{table}[h!]
 \centering
@@ -219,7 +219,7 @@ $\theta_5$	& [-90, 90]
 \label{tab:workspace.range}
 \end{table}
 
-Once the range of the variables has been determined, the movement of every joint can be simulated to create a reachable 3D space for the end effector. The related simulation code can be found in appendix \ref{apendix:lynx_workspace}.
+Once the range of the variables has been determined, the movement of every joint can be simulated to create a reachable 3D space for the end effector.
 
 \begin{figure}
 \begin{center}
@@ -229,7 +229,7 @@ Once the range of the variables has been determined, the movement of every joint
 \end{center}
 \end{figure}
 
-Figure \ref{fig:workpace.workspace} presents the workspace of the Lynxmotion robot. Specifically, the top left picture shows a 3D view of the space, while the others intuitively present a 2D view in the planes of YX, ZX and ZY respectively.
+Figure \ref{fig:workpace.workspace} presents the workspace of the Lynxmotion robot. Specifically, the top left picture shows a 3D space, while the others intuitively present a 2D view in the planes of YX, ZX and ZY respectively.
 
 \subsection{Inverse kinematics}
 The purpose of inverse kinematics is to find the joint valuables given the specific position and orientation of the end effector. Concretely, there are five joints valuables need to be worked out, namely  $\theta_1$,  $\theta_2$,  $\theta_3$,  $\theta_4$,  $\theta_5$.
@@ -508,7 +508,7 @@ To execute the experiment,the \textit{LynxFK} function is created to take a set 
 For convenience of subsequent inverse kinematics test, the outcomes of the forward kinematics test are saved into a file. 
 
 \subsection{Inverse kinematics test and animation}
-Compared with forward kinematics, inverse kinematics works in an oppisite way. It calcultes the set of joint values ($\theta_i^{\prime}$) through loading the pair data $P$ and $R$ which are stored in the previous files. Then, in order to validate the results of the inverse kinematics process, the robot will compute the forward kinematics using the given output which should produce a new set of points, called $P^{\prime}$ and $R^{\prime}$, which should be very similar to those used as input for inverse kinematics. This process is depicted by figure \ref{fig:inverse_test.diagram}.
+Inverse kinematics calcultes the set of joint values ($\theta_i^{\prime}$) through loading the pair data $P$ and $R$ which are stored in the previous files. Then, for validating the results of the inverse kinematics process, the robot will compute the forward kinematics using the given output which should produce a new set of points, called $P^{\prime}$ and $R^{\prime}$, which should be similar to those used as input for inverse kinematics. This process is depicted by figure \ref{fig:inverse_test.diagram}.
 
 \begin{figure}
 \begin{center}
@@ -537,7 +537,7 @@ Compared with forward kinematics, inverse kinematics works in an oppisite way. I
 \end{center}
 \end{figure}
 
-To provide a quantitative measure of the result, an error function is defined as $e_i$ to compute the difference between the desired position ($P$) and the obtained position ($P_i^{\prime}$) at the point $i$.  The results of the first solution are shown in table \ref{tab:inverse_test.error}.
+To provide a quantitative measure of the result, we use an error function $e_i$ to compute the difference between the desired position ($P$) and the obtained position ($P_i^{\prime}$) at the point $i$.  The results of the first solution are shown in table \ref{tab:inverse_test.error}.
 
 \begin{equation}
 e_i=P_i-P_i^{\prime}
@@ -570,20 +570,20 @@ e_i=P_i-P_i^{\prime}
 \subsection{Trajectories}
 All three of these trajectories have been accomplished and combined to achieve a single task, which will be elaborated in the following.
 \subsubsection{Polynomial trajectories}
-The approach used to implement the desired trajectories for the robot was to use via point to create the paths to be followed and therefore compute the coefficients of the polynomials that best fit to those paths.
+The via point approach is used to implement the desired trajectories to create the paths. Specifically, we compute the coefficients of the polynomials that best fit to those paths.
 
-The considered polynomial trajectory was 4-3-4. This means that the first and last trajectory is a polynomial of fourth degree whilst for the inner trajectories a polynomial of third degree is used.
+The considered polynomial trajectory is 4-3-4. This means the first and last trajectory is a polynomial of fourth degree whilst a polynomial of third degree is used for the inner trajectories .
 
 \begin{equation}
 q(t) = 
   \begin{cases} 
-  q_1(t)= a_5t^5 + a_4t^4 + a_3t^3 + a_2t^2 + a_1t + a_0 & : t_0 \leq t < t_1 \\
+  q_1(t)= a_4t^4 + a_3t^3 + a_2t^2 + a_1t + a_0 & : t_0 \leq t < t_1 \\
    q_2(t)= b_3t^3 + b_2t^2 + b_1t + b_0 & : t_1 \leq t < t_2 \\
-   q_3(t)= c_5t^5 + c_4t^4 + c_3t^3 + c_2t^2 + c_1t + c_0 & : t_2 \leq t < t_f
+   q_3(t)= c_4t^4 + c_3t^3 + c_2t^2 + c_1t + c_0 & : t_2 \leq t < t_f
   \end{cases}
 \end{equation}
 
-Finally, to provide the trajectory its only necessary to compute the values of the coefficients to fully describe the piecewise trajectory at the desired points.
+Finally, we only need to calculate the values of the coefficients to fully describe the piecewise trajectory at the desired points.
 
 \subsubsection{Straight line}
 In order to implement an straight line between the chosen points it was created a line between them, using the parametric form of the equation of the line in 3D where the parameter in this case is the time, and uniformly sampled to get the via points that the robot should follow using the polynomial trajectory.
@@ -630,7 +630,7 @@ In figure \ref{fig:trajectories.cartesian} it can be observed that the obstacle 
 
 \section{Part 2}
 \subsection{Inverse Kinematics}
-The manipilator of this part is a planar parallel robot which applied in surgery. The schematic diagram is shown in  figure \ref{fig:Parallel}. Concretely, The task os this section is to find the solutions for $\psi_i$ and $\theta_i$ given the position coordiante of $C$ with respect to B and the rotation angle $a$ of the platform.
+The manipilator of this part is a planar parallel robot which applied in surgery. The schematic diagram is shown in  figure \ref{fig:Parallel}. Concretely, The task is to find the solutions for $\psi_i$ and $\theta_i$ given the position coordiante of $C$ with respect to B and the rotation angle $a$ of the platform.
 \begin{figure}[htbp] 
 \begin{center}
 \includegraphics[width=\textwidth]{images/Parallel}
@@ -671,7 +671,7 @@ Where $Rot(z,a)$ is the rotation matrix which rorate around $Z$ axis for $a$ deg
 \end{array}\right]
 \end{equation}
 
-Thus, $\overrightarrow{PB_i PP_i}$ has been worked out and it can be applied to calculate $\psi_i$ and $\theta_i$ in the $RR$ planar manipulator. Some pure algebra methods are applied subsequently.
+Thus, $\overrightarrow{PB_i PP_i}$ can be applied to calculate $\psi_i$ and $\theta_i$ in the $RR$ planar manipulator. Some pure algebra methods are applied subsequently.
 For leg $i$ the coordinated for point $PP_i$, w.r.t to frame ${PB}$ are:
 
 \begin{equation}
@@ -742,7 +742,7 @@ Theoratically, there should be 2 solutions for $\psi$ due the existence of $\the
 \end{equation}
 
 \subsection{Workspace}
-Considering that there are three legs in this manipulators, applying geometirc method to work out the workspace might be complexe in some sense. Therefore, algebraic approach relying on the powerful computation of Matlab is also a feasible way to calculate the workspace of the end effector. The core thought is that the real root of the equation\ref{eq:parallel_t} exist for each leg when the point is reachable for the manipulator. Namely, three pairs of $t_1 and t_2$ for every leg are real number within the workspace. Correspondingly, we apply the if statement to judge the value of $t_1 and t_2$. This is a robust method to fit the real workspace by thousands of points forming a region.Then, through specify the coordinate range of point $C$, we can derive the workspace. Concretely, we select a wide range for $X_c,Y_c$ and draw the workspace for different $a$ respectively.
+Algebraic approach relying on the powerful computation of Matlab is a feasible way to calculate the workspace of the end effector. The core thought is that the real root of the equation\ref{eq:parallel_t} exist for each leg when the point is reachable for the manipulator. Namely, three pairs of $t_1,t_2$ for every leg are real number within the workspace. It is a robust method to fit the real workspace by thousands of points forming a region. Then, through specify the coordinate range of point $C$, we can derive the workspace. Concretely, we select a wide range for $X_c,Y_c$ and draw the workspace for different $a$ respectively.
  
 \begin{figure}[htbp] 
 \begin{center}
@@ -752,7 +752,7 @@ Considering that there are three legs in this manipulators, applying geometirc m
 \end{center}
 \end{figure}
 
-It is obvious from the picture that different angle $a$ correspond to various shapes of workspace. Furthermore, we find that when $a=0^{\circ}$, the workspace has the biggest shape. It is reasonable as the base plate and platform are parallel when $a=0^{\circ}$, which enable three legs to stretch themselves to the most. The comparison of different shapes of workspace under diverse angle $a$ is shown in figure \ref{fig:parallel_workspace2}
+It is obvious from the picture that different angle $a$ correspond to various shapes of workspace. Furthermore, we find that when $a=0^{\circ}$, the workspace has the biggest shape. It is reasonable as the three legs can stretch themselves to the most in this case. The comparison of different shapes of workspace under diverse angle $a$ is shown in figure \ref{fig:parallel_workspace2}
 
 \begin{figure}[htbp] 
 \begin{center}
@@ -860,37 +860,5 @@ The code
 
 
 
-\appendix
-\section{Matlab codes}
-\subsection{Forward kinematics (LynxFK function)}
-\label{apendix:LynxFK}
-\verbatiminput{code/Part1/LynxFK.m}
-
-\subsection{Lynxmotion Workspace (workspace script)}
-\label{apendix:lynx_workspace}
-\verbatiminput{code/Part1/workspace_script.m}
-
-\subsection{Inverse kinematics test (ik script)}
-\label{apendix:lynx_ik_test}
-\verbatiminput{code/Part1/ik_script.m}
-
-\subsection{Inverse kinematics Parallel (ik script)}
-\label{apendix:parallel_ik_test}
-\verbatiminput{code/Part2/ik_script.m}
-
-\subsection{Workspace Parallel (ik script)}
-\label{apendix:parallel_workspace}
-\verbatiminput{code/Part2/workspace_script.m}
-
-\subsection{Pseudo-inverse Jacobian iterative method}
-\label{apendix:iterative_method}
-\verbatiminput{code/Part3/iterative_ik.m}
-%----------------------------------------------------------------------------------------
-%	BIBLIOGRAPHY
-%----------------------------------------------------------------------------------------
-
-\bibliographystyle{abbrvnat}
-\setcitestyle{authoryear,open={(},close={)}}
-\bibliography{biblio}
 
 \end{document}
