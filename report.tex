@@ -235,14 +235,13 @@ Figure \ref{fig:workpace.workspace} presents the workspace of the Lynxmotion rob
 The purpose of inverse kinematics is to find the joint valuables given the specific position and orientation of the end effector. Concretely, there are five joints valuables need to be worked out, namely  $\theta_1$,  $\theta_2$,  $\theta_3$,  $\theta_4$,  $\theta_5$.
 
 \subsubsection{Finding  $\theta_1$}
-Since the x and y position of the end effector are only decided by the rotation of joint 1, we can project the manipulator into the horizontal plane of the world frame. Therefore, we can derive the expression of  $\theta_1$
-
+Since the x and y position of the end effector are only decided by the rotation of joint 1, we can project the manipulator into the horizontal plane of the world frame. Therefore, we have
 \begin{equation}
 \theta_1 = atan2(Py, Px)
 \end{equation}
 
 \subsubsection{Finding  $\theta_2$, $\theta_3$}
-For simplifying the configuration, we can extract link 2 and link 3 from the whole manipulator, hence the link 2 and link 3 would be a planar mechanism. The next step is to find the origin coordinates of frame 3 regarding frame 1, namely $\O{1}{3}$, which can be derived from the matrix of $\T{1}{3}$. Furthermore, $\T{1}{3}$ can be expressed as the product
+For simplifying the configuration, we can extract link 2 and link 3 from the whole manipulator, hence they would be a planar mechanism. The next step is to find the origin coordinates of frame 3 regarding frame 1, namely $\O{1}{3}$, which can be derived from the matrix of $\T{1}{3}$. Furthermore, $\T{1}{3}$ can be expressed as the product
 
 \begin{align}
 \label{eq:inverse.t_13}
@@ -251,7 +250,7 @@ For simplifying the configuration, we can extract link 2 and link 3 from the who
 \T{1}{3} & = \T{1}{0} \T{0}{3}
 \end{align}
 
-According to the equation (\ref{eq:inverse.t_13}), we need to get the matrixes $\T{1}{0}$ and $\T{0}{3}$ respectively. $\T{1}{0}$ is easy to get from the inverse matrix of $\T{0}{1}$, which should be 
+According to the equation (\ref{eq:inverse.t_13}), we need to get the matrixes $\T{1}{0}$ and $\T{0}{3}$ respectively. $\T{1}{0}$ is easy to derived from $\T{0}{1}$ 
 
 \begin{equation}
 \label{eq:inverse.t_10}
@@ -307,7 +306,7 @@ Furthermore, $Z_5$ is aligned with link 4 whose length is $d_5$, so $\O{0}{3}$ c
 \end{aligned}
 \end{equation}
 
-Then, $\T{1}{3}$ can be computed by substituting (\ref{eq:inverse.t_10}), (\ref{eq:inverse.t_03}) and (\ref{eq:inverse.O_03}) in (\ref{eq:inverse.t_13}). Lastly, as only the fourth column is needed at this moment, equation (\ref{eq:inverse.t_13_expanded}) only shows the last column for simplicity.
+Then, $\T{1}{3}$ can be computed by substituting (\ref{eq:inverse.t_10}), (\ref{eq:inverse.t_03}) and (\ref{eq:inverse.O_03}) in (\ref{eq:inverse.t_13}). Lastly, as only the fourth column is needed, equation (\ref{eq:inverse.t_13_expanded}) only shows the last column for simplicity.
 
 \begin{equation}
 \label{eq:inverse.t_13_expanded}
@@ -319,7 +318,7 @@ Then, $\T{1}{3}$ can be computed by substituting (\ref{eq:inverse.t_10}), (\ref{
 \end{array} \right]
 \end{equation}
 
-Therefore, we found the coordinates of frame 3 with respect to frame 1(namely $\O{1}{3}$), as denoted in equation (\ref{eq:inverse.O_13}). Then the solutions of  $\theta_2$ and  $\theta_3$ can be worked out by the geometrical method mentioned in the lecture. There are 2 solutions as a result of redundancy, which is shown below in figure \ref{fig:theta_2,theta_3}.
+Therefore, we find the coordinates of frame 3 with respect to frame 1(namely $\O{1}{3}$), as denoted in equation (\ref{eq:inverse.O_13}). Then the solutions of  $\theta_2$ and  $\theta_3$ can be worked out by the geometrical method mentioned in the lecture. There are 2 solutions as a result of redundancy, which is shown below in figure \ref{fig:theta_2,theta_3}.
 
 \begin{align}
 \label{eq:inverse.O_13}
@@ -343,11 +342,11 @@ Therefore, we found the coordinates of frame 3 with respect to frame 1(namely $\
 \end{center}
 \end{figure}
 
-Applying the law of cosines and using the coordinates of point $O_3$ with respect to $O_1$, we can derive the expression of $\theta_3$ that
+Applying the law of cosines and using the coordinates of point $O_3$ with respect to $O_1$, we can derive the expression of $\theta_3$
 \begin{equation*}
 \c{3} = \frac{\O{1}{3x}^2 + \O{1}{3y}^2 - a_2^2 - a_3^2}{2a_2a_3}\qquad
 \end{equation*}
-while sine will have two possible values, a positive and a negative value, which will lead to the two solutions depicted above.
+while sine will have two possible values, a positive and a negative value, which will lead to the two solutions.
 \begin{equation*}
 \s{3} = \pm\sqrt{1-\c{3}^2}
 \end{equation*}
@@ -363,7 +362,7 @@ while sine will have two possible values, a positive and a negative value, which
 \theta_{3} = atan2(\s{3},\c{3})
 \end{equation}
 
-Finally, $\theta_2$ can be computed from the angle of $\O{1}{3}$ once that $\theta_3$ is known.
+Finally, $\theta_2$ can be computed from the angle of $\O{1}{3}$.
 
 \begin{equation}
 \theta_{2} = atan2(\O{1}{3y},\O{1}{3x})-atan2(\sin(b),\cos(b) )
@@ -373,7 +372,7 @@ where
 \sin(b)= \frac{a_3\s{3}}{\sqrt{\O{1}{3x}^2+\O{1}{3y}^2}}
 \end{equation*}
 
-Due to the dependence of $\theta_2$ and $\theta_3$,  $\theta_2$ will also have two solutions. The two sets of solutions create two possible configurations, elbow right for $\theta_3^+$ and elbow left for $\theta_3^-$, which are depicted in figure \ref{fig:theta_2,theta_3}.
+Due to the dependence of $\theta_2$ and $\theta_3$,  $\theta_2$ will also have two solutions. The two sets of solutions create two possible configurations which are depicted in figure \ref{fig:theta_2,theta_3}.
 
 \subsubsection{Finding $\theta_4$}
 The algebraic method is used to work out $\theta_4$. The core idea is building an equation of $\theta_4$ from the element of transformation matrix $\T{3}{5}$.Now,$\theta_1$, $\theta_2$, $\theta_3$ are already known. Combined with  $\T{0}{5}$,  $\T{3}{5}$ can be derived from
@@ -392,7 +391,7 @@ where
 \T{3}{0} = \T{3}{2}\T{2}{1}\T{1}{0} 
 \end{equation}
 
-Each element on the right side of equation \ref{eq:inverse.t_35} depends on $\theta_1$, $\theta_2$ and $\theta_3$ which are already known. It is vital to mention that there exists two versions of $\T{3}{2}$ and $\T{2}{1}$ as there are two solutions. Therefore, $\T{3}{5}$ will have two versions and both have the form:
+Each element on the right side of equation \ref{eq:inverse.t_35} depends on $\theta_1$, $\theta_2$ and $\theta_3$ which are already known. Note that there exists two versions of $\T{3}{2}$ and $\T{2}{1}$ as there are two solutions. Therefore, $\T{3}{5}$ will have two versions and both have the form:
 
 \begin{equation}
 \label{eq:inverse.t_35_expanded}
@@ -438,7 +437,7 @@ Another way to get $\T{3}{5}$ with variable $\theta_4$ is multiplying matrix (\r
 \end{aligned}
 \end{equation}
 
-Thus, $\T{3}{5}$ has been derived in two ways, which can be used to create an equation system to solve for $\theta_4$. By equalising the last column of (\ref{eq:inverse.t_35_expanded}) and (\ref{eq:inverse.t_35_forward}) we obtain:
+Thus, $\T{3}{5}$ has been derived in two ways, which can be used to create an equation to solve for $\theta_4$. By equalising the last column of (\ref{eq:inverse.t_35_expanded}) and (\ref{eq:inverse.t_35_forward}) we obtain:
 
 \begin{equation}
 \s{4} = \frac{\O{3}{5x}}{d_5}
@@ -453,7 +452,7 @@ therefore
 As a result of the two versions of (\ref{eq:inverse.t_35_expanded}), $\theta_4$ will also have two solutions that must be computed in the same way for both configurations.
 
 \subsubsection{Finding $\theta_5$}
-The method of calculating $\theta_5$ is similar to finding $\theta_4$. we try to get the matrix  $\T{4}{5}$ from two ways. The one with variable $\theta_5$ is obviously expressed in equation \ref{eq:forward.t_45}.
+The method of calculating $\theta_5$ is similar to finding $\theta_4$. We get the matrix  $\T{4}{5}$ from two ways. The one with variable $\theta_5$ is obviously expressed in equation \ref{eq:forward.t_45}.
 
 Another means of representing $\T{4}{5}$ is 
 \begin{equation}
@@ -464,9 +463,9 @@ where
 \begin{equation*}
 \T{4}{0} = \T{4}{3}\T{3}{0}
 \end{equation*}
-consequently, the equation (\ref{eq:inverse.t_45}) depends on the inverse of (\ref{eq:forward.t_34}), (\ref{eq:inverse.t_03}) since $\T{0}{5}$ is a known condition. 
+Consequently, the equation (\ref{eq:inverse.t_45}) depends on the inverse of (\ref{eq:forward.t_34}), (\ref{eq:inverse.t_03}) since $\T{0}{5}$ is a known condition. 
 
-It seems that $\theta_5$ should also have two solutions since $\s{4}$ and $\c{4}$ have 2 pairs of solutions and the expression of $\T{4}{0}$ contains $\s{4}$ and $\c{4}$. Whereas, it turns out that $\T{4}{0}$ only have one value due to the same computing result of 2 pairs of $\s{4}$ and $\c{4}$.For simplicity, (a,b) is used to represent each element of $\T{4}{5}$(a,b are the numble of rows and columns). so, $\s{5}$ and $\c{5}$ can be written as
+It seems that $\theta_5$ should also have two solutions since $\s{4}$ and $\c{4}$ have 2 pairs of solutions. Whereas, it turns out that $\T{4}{0}$ only have one value due to the same computing result of 2 pairs of $\s{4}$ and $\c{4}$. For simplicity, (a,b) is used to represent each element of $\T{4}{5}$(a,b are the numble of rows and columns). so, $\s{5}$ and $\c{5}$ can be written as
 
 \begin{equation}
 \s{5} = \T{4}{5}(2,1)
