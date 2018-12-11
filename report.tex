@@ -115,16 +115,9 @@ The robot contains five different reference frames which are described by the pa
 \right]
 \end{equation}
 
-where
+where $a_2 = 9.5$ [cm], $a_3 = 11$ [cm], $d_1 = 6.5$ [cm] and $d_5 = 3.2$ [cm].
 
-\begin{align*}
-a_2 = 9.5 [cm] \\
-a_3 = 11 [cm] \\
-d_1 = 6.5 [cm] \\
-d_5 = 3.2 [cm]
-\end{align*}
-
-\begin{figure}
+\begin{figure}[htbp]
 \begin{center}
 \includegraphics[width=0.8\textwidth]{images/diagram}
 \caption{Lynxmotion robot diagram}
@@ -132,15 +125,13 @@ d_5 = 3.2 [cm]
 \end{center}
 \end{figure}
 
-In order to derive the forward kinematics of the robots it is necessary to know the orientation and position of the end effector, the frame at the point $O_5$, with respect to the world frame whose origin is at point $O_0$.
-
-According to the rule of matirx multiplication, $\T{0}{5}$ can be derived from
+The forward kinematics consists of knowing the orientation and position of the end effector with respect to the world frame whose origin is at point $O_0$. According to the rule of matrix multiplication, $\T{0}{5}$ describes what is needed and it can be derived from
 
 \begin{equation}
 \T{0}{5} = \T{0}{1} \T{1}{2}\T{2}{3}\T{3}{4}\T{4}{5}
 \end{equation}
 
-Thus, the resultant matrix will be a homogeneous matrix that represents the orientation and position of the frame attached at the end effector. It will have the variables $\theta_1 ... \theta_5$ and have the following form:
+Thus, the resultant matrix will be a homogeneous matrix that represents the orientation and position of the frame attached at the end effector. It will depend on the variables $\theta_1 ... \theta_5$ and have the following form:
 
 \begin{subequations}
 \begin{align}
@@ -181,7 +172,7 @@ where $R$ is the rotation matrix of the fifth frame and ${}^0O_5$ is the coordin
 
 To compute the forward kinematics in Matlab, a function is created to receive the vector $Q=[\theta_1 \theta_2 \theta_3 \theta_4 \theta_5]^T$ as input and output the position ${}^0P$ and orientation $R$ of the end effector, which is depicted in figure \ref{fig:forward.block_diagram}.
 
-\begin{figure}
+\begin{figure}[htbp] 
 \begin{center}
 \begin{tikzpicture}
 	\matrix [ row sep = .375cm, column sep = .75cm, ]
@@ -219,7 +210,7 @@ $\theta_5$	& [-90, 90]
 \label{tab:workspace.range}
 \end{table}
 
-Once the range of the variables has been determined, the movement of every joint can be simulated to create a reachable 3D space for the end effector.
+Once the range of the variables has been determined, the movement of every joint can be simulated to create a reachable 3D space for the end effector, figure \ref{fig:workpace.workspace} presents the workspace. Specifically, the top left picture shows a 3D space, while the others intuitively present a 2D view in the planes of YX, ZX and ZY respectively.
 
 \begin{figure}
 \begin{center}
@@ -228,8 +219,6 @@ Once the range of the variables has been determined, the movement of every joint
 \label{fig:workpace.workspace}
 \end{center}
 \end{figure}
-
-Figure \ref{fig:workpace.workspace} presents the workspace of the Lynxmotion robot. Specifically, the top left picture shows a 3D space, while the others intuitively present a 2D view in the planes of YX, ZX and ZY respectively.
 
 \subsection{Inverse kinematics}
 The purpose of inverse kinematics is to find the joint valuables given the specific position and orientation of the end effector. Concretely, there are five joints valuables need to be worked out, namely  $\theta_1$,  $\theta_2$,  $\theta_3$,  $\theta_4$,  $\theta_5$.
