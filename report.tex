@@ -427,7 +427,7 @@ Another way to get $\T{3}{5}$ with variable $\theta_4$ is multiplying matrix (\r
 \end{aligned}
 \end{equation}
 
-Thus, $\T{3}{5}$ has been derived in two ways, which can be used to create an equation system to solve for $\theta_4$. By equalising the last column of (\ref{eq:inverse.t_35_expanded}) and (\ref{eq:inverse.t_35_forward}) we obtain:
+Thus, $\T{3}{5}$ has been derived in two ways, which can be used to create an equation to solve for $\theta_4$. By equalising the last column of (\ref{eq:inverse.t_35_expanded}) and (\ref{eq:inverse.t_35_forward}) we obtain:
 
 \begin{equation}
 \s{4} = \frac{\O{3}{5x}}{d_5}
@@ -453,7 +453,7 @@ where
 \begin{equation*}
 \T{4}{0} = \T{4}{3}\T{3}{0}
 \end{equation*}
-consequently, the equation (\ref{eq:inverse.t_45}) depends on the inverse of (\ref{eq:forward.t_34}), (\ref{eq:inverse.t_03}) since $\T{0}{5}$ is a known condition. 
+Consequently, the equation (\ref{eq:inverse.t_45}) depends on the inverse of (\ref{eq:forward.t_34}), (\ref{eq:inverse.t_03}) since $\T{0}{5}$ is a known condition. 
 
 It seems that $\theta_5$ should also have two solutions since $\s{4}$ and $\c{4}$ have 2 pairs of solutions and the expression of $\T{4}{0}$ contains $\s{4}$ and $\c{4}$. Whereas, it turns out that $\T{4}{0}$ only have one value due to the same computing result of 2 pairs of $\s{4}$ and $\c{4}$.For simplicity, (a,b) is used to represent each element of $\T{4}{5}$(a,b are the numble of rows and columns). so, $\s{5}$ and $\c{5}$ can be written as
 
@@ -688,7 +688,11 @@ e_2 = -2x_{pp_i}r_A
 e_2 =x_{pp_i}^2+y_{pp_i}^2+r_A^2-L^2
 \end{equation}
 
+<<<<<<< HEAD
 Hence, the equation \ref{eq:parallel_algebra} can be written as
+=======
+Hence, the euqation (\ref{eq:parallel_algebra}) can be written as
+>>>>>>> 95f384d1f18bd5de8856adb4d6274c60de4476af
 \begin{equation}
 \label{eq:parallel_e}
 e_1sin\theta + e_2cos\theta + e_3 = 0
@@ -698,7 +702,7 @@ Then, we define another intermediate parameter $t$ as $t=tan(\frac{\theta}{2})$,
 \begin{equation}
 sin\theta=\frac{2t}{1+t^2}\qquad and \qquad cos\theta=\frac{1-t^2}{1+t^2}
 \end{equation}
-Substituting them into equation \ref{eq:parallel_e} we derive a quadratic function 
+Substituting them into equation (\ref{eq:parallel_e}) we derive a quadratic function 
 \begin{equation}
 (e_3-e_2)t^2+2e_1t+e_2+e_3=0
 \end{equation}
@@ -733,17 +737,17 @@ Theoratically, there should be 2 solutions for $\psi$ due the existence of $\the
 \end{equation}
 
 \subsection{Workspace}
-Algebraic approach relying on the powerful computation of Matlab is a feasible way to calculate the workspace of the end effector. The core thought is that the real root of the equation\ref{eq:parallel_t} exist for each leg when the point is reachable for the manipulator. Namely, three pairs of $t_1,t_2$ for every leg are real number within the workspace. It is a robust method to fit the real workspace by thousands of points forming a region. Then, through specify the coordinate range of point $C$, we can derive the workspace. Concretely, we select a wide range for $X_c,Y_c$ and draw the workspace for different $a$ respectively.
+Algebraic approach relying on the powerful computation of Matlab is a feasible way to calculate the workspace of the end effector. The core thought is that the real root of the equation (\ref{eq:parallel_t}) exist for each leg when the point is reachable for the manipulator. Namely, three pairs of $t_1,t_2$ for every leg are real number within the workspace. Concretely, we apply the if statement to judge the value of $t_1, t_2$. Tt is a robust method to fit the real workspace by thousands of points forming a region. Then, through specify the coordinate range of point $C$, we can derive the workspace. Concretely, we select a wide range for $X_c,Y_c$ and draw the workspace for different $a$ respectively.
  
 \begin{figure}[htbp] 
 \begin{center}
 \includegraphics[width=\textwidth]{images/parallel_workspace2}
 \caption{Workspace of planar parallel robot when $a=0^{\circ}\qquad a=30^{\circ}$}
-\label{fig:parallel_workspace2}
+\label{fig:parallel_workspace1}
 \end{center}
 \end{figure}
 
-It is obvious from the picture that different angle $a$ correspond to various shapes of workspace. Furthermore, we find that when $a=0^{\circ}$, the workspace has the biggest shape. It is reasonable as the three legs can stretch themselves to the most in this case. The comparison of different shapes of workspace under diverse angle $a$ is shown in figure \ref{fig:parallel_workspace2}
+It is obvious from the picture \ref{fig:parallel_workspace1} that different angle $a$ correspond to various shapes of workspace. Furthermore, we find that when $a=0^{\circ}$, the workspace has the biggest shape. It is reasonable as the three legs can stretch themselves to the most in this case. The comparison of different shapes of workspace under diverse angle $a$ is shown in figure \ref{fig:parallel_workspace2}
 
 \begin{figure}[htbp] 
 \begin{center}
@@ -758,7 +762,50 @@ It is obvious from the picture that different angle $a$ correspond to various sh
 \input{rodrigo}
 
 \subsection{Mang Ning}
-\include{mang}
+\subsection{Soving the inverse kinematics of Lynxmotion by neural network (Mang Ning)}
+\subsubsection{Neural network and back porpagation}
+In essense, artificial neural network is a computational model that can approximate any functions. The structure of a network is formed by connecting each neuron through linear equation and specific activation function,which is expressed in equation (\ref{eq:nn_linear_equation}). Basically, the meaning of training a neural network is actually adjusting the variables $w$ and $b$ insides the linear function.  
+
+\begin{equation}
+\label{eq:nn_linear_equation}
+a = \sigma(w_1a_1+w_2a_2+w_3a_3+...+w_na_n-b)
+\end{equation}
+
+Afterwards, our target is to minimize a cost function that measures the performance of the network . This function involves all variavles $w_i$ and $b_i$ which enable us to find the minimum value by computing the partial derivative   in terms of each $w_i$ and $b_i$. Then the cost function can be minimized along the partial derivative path just as shown in figure \ref{fig:gradient_descent}.
+
+\begin{figure}[htbp] 
+\begin{center}
+\includegraphics[width=\textwidth]{images/gradient_descent}
+\caption{the process of reaching the minimum point of cost function by gradient descent}
+\label{fig:gradient_descent}
+\end{center}
+\end{figure}
+
+Next, back propagation algorithm can derive a specific variation for every $w_i$ and $b_i$ in each iteration. As a result, the training of a neural network will be completed and it can be used to make predictions.  
+
+\subsubsection{Applying neural network on inverse Kinematics}
+As for the structure of this neural network applied on inverse kinematics,the input should be 12 neurons since the rotation and translation have 12 elements totally. Similarly, the output layer has 5 neurons for $\theta_1...\theta_5$(ignoring the redundant sulotion). Experientially, the number of hidden layers should be comparitive to the number of neurons of input layer. Thus, the structure can be expressed as figure \ref{fig:IK_neural_network}. 
+
+\begin{figure}[htbp] 
+\begin{center}
+\includegraphics[width=\textwidth]{images/IK_neural_network}
+\caption{the structure of the neural network applied in inverse kinematics}
+\label{fig:IK_neural_network}
+\end{center}
+\end{figure}
+
+A massive training data can be generated by previous forward kinematics code, concretely, $10^5$ data is created based on picking $10$ values uniformly for $\theta_1...\theta_5$ respectively. These data will be split into traning data and test data at a ratio of $0.8$.
+After setting relevant learning parameters, the training of neural network can be excuted. For simplicity, we only adopt $\theta_3$ as the output because the training time will exceed hundreds hours if the network output $\theta_1$ to $\theta_5$ simultaneously. Besides, the range of joints angle is also contrained between $[0^{\circ},20^{\circ}$. 
+It turns out that 
+
+
+
+
+
+\subsubsection{Conclusion and future study}
+network complexity, training time, accuracy, data volume 
+
+momentum algorithm
 
 \appendix
 \section{Matlab codes}
