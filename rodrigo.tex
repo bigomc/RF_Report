@@ -77,14 +77,14 @@ The experiment consists of propose the value of a point in the configuration spa
 \end{center}
 \end{figure}
 
-As the problem is to find the values in joint space that achieves the desired point in Cartesian space, the iterative method is used and for every iteration the joint values converge to the solution, depicted in figure \ref{fig:part3.joint_trajectory}. Moreover, after the joint values are updated the forward kinematics is performed again and the error is also updated.
+As the problem is to find the values in joint space that achieves the desired point in Cartesian space, the iterative method is used and for every iteration the joint values converge to the solution, depicted in figure \ref{fig:part3.joint_trajectory}. Moreover, after the joint values are updated the forward kinematics is performed again and the error is also updated and minimised, as depicted in figure \ref{fig:part3.error_minimisation}.
 
-The code \ref{apendix:iterative_method} 
+The code \ref{apendix:iterative_method}
 
 \begin{figure}[htbp] 
 \begin{center}
 \includegraphics[width=\textwidth]{images/error_p3_rodrigo}
 \caption{Error is minimised as the position of end effector gets closer to the desired position}
-\label{fig:part3.joint_trajectory}
+\label{fig:part3.error_minimisation}
 \end{center}
 \end{figure}

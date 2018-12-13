@@ -768,10 +768,10 @@ It is obvious from the picture \ref{fig:parallel_workspace1} that different angl
 We think that the most difficult part is Inverse Kinematics problem, the difficulties found to solve this problem are mainly result from the nature of the equations which are non-linear,  transcendental and coupled. To deal with those difficulties we combined the algebraic and the geometric method. Furthermore, it was also tough to implement the trajectories, specially the straight line, because a polynomial approximation was used if not enough via points are provided the trajectory does not fit the straight line.
 
 
-
-
 %----------- Rodrigo's paragraph start ---------------
+Talking about the inverse Jacobian method, I found really interesting how the inverse kinematics is solved. Moreover, the procedure is very similar to the Method of Steepest Descent described by \citep{Haykin:1991} where the optimal solution to the Wiener filter is found, and it is a little obvious because the Jacobian is the generalization of the derivative for vector valued functions $f:R^n \to R^n$. 
 
+The method seems to be very useful when the distance between the desired point and the current point is relatively small, in those cases the convergence of the joint values to the correct solution is very fast, but when the difference increases or it's near an other solution, for example \textit{elbow left} and \textit{elbow right}, the method might lead to an undesired solution.
 %----------- Rodrigo's paragraph end ---------------
 
 %----------- Mang's paragraph start ---------------
