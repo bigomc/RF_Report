@@ -23,7 +23,7 @@ P=[
 Q=cat(1,Q,rad2deg(q'));
 
 e=Pd-P;
-error=cat(1,error,e');
+error=cat(1,error,[e' norm(e)]);
 while(norm(e) > 0.01)
     J=[
         -a1*sin(q(1))-a2*sin(q(1)+q(2)) -a2*sin(q(1)+q(2));
@@ -42,7 +42,8 @@ while(norm(e) > 0.01)
         a1*sin(q(1))+a2*sin(q(1)+q(2))
         ];
     e=Pd-P;
-    error=cat(1,error,e');
+    
+    error=cat(1,error,[e' norm(e)]);
 end
 
 %%Plots
@@ -57,7 +58,7 @@ fig2=figure(2);
 plot(error)
 xlabel('iterations')
 ylabel('error (\Delta x) [cm]')
-legend('e_1', 'e_2')
+legend('e_x', 'e_y', '|e|')
 title('Error value update')
 
 print(fig1,'Trajectory_Joint_p3_rodrigo','-dpng')

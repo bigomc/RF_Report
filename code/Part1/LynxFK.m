@@ -1,6 +1,6 @@
 function [ P , R , O ] = LynxFK( Q )
 %LYNXFK Forward kinematics of Lynxmotion robot
-%   This function computes the forwar kinematics of the Lynxmotion robot
+%   This function computes the forward kinematics of the Lynxmotion robot
 %   given a row vector Q containing the values of the five joints of the
 %   robot in degrees.
 %   The return value is the Position (P) and Orientation (R) of the end 
