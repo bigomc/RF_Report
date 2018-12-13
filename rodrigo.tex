@@ -31,7 +31,7 @@ As a consequence, the inverse kinematics problem can be solved by knowing the di
 \theta_d=\theta+\Delta\theta
 \end{equation}
 
-If $\Delta\theta$ is considered to be small it can be computed by using inverse jacobian as expressed in (\ref{eq:part3.delta_relation}). Usually as the inverse of jacobian matrix not always exists, it is necessary to use the pseudo-inverse as denoted by \citep{penrose1955generalized}.
+If $\Delta\theta$ is considered to be small it can be computed by using inverse Jacobian as expressed in (\ref{eq:part3.delta_relation}). Usually as the inverse of Jacobian matrix not always exists, it is necessary to use the pseudo-inverse as denoted by \citep{penrose1955generalized}.
 
 \begin{equation}
 \label{eq:part3.delta_relation}
@@ -58,7 +58,7 @@ Furthermore, a step factor can be added to the equation and completely get the j
 Finally, the current joint values are updated using small steps, controlled by $\alpha$, until the error is zero or very close to zero, where can present oscillations  due to the value of $\alpha$ and the precision of the robot.
 
 \subsubsection{Simulation and results}
-For the simulation it was considered a planar robot with two revolute joints, with links of length $a_1=20 [cm]$ and $a_2=10 [cm]$, the coefficient $\alpha = 0.1$. The jacobian of the robot is:
+For the simulation it was considered a planar robot with two revolute joints, with links of length $a_1=20 [cm]$ and $a_2=10 [cm]$, the coefficient $\alpha = 0.1$. The Jacobian of the robot is:
 
 \begin{equation}
 J(\theta) = \left[ \begin{array}{cc}

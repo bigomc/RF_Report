@@ -19,7 +19,7 @@ Afterwards, our target is to minimize a cost function that measures the performa
 \end{center}
 \end{figure}
 
-Next, back propagation algorithm can derive a specific variation for every $w_i$ and $b_i$ in each iteration. As a result, the training of a neural network will be completed and it can be used to make predictions.  
+Next, back propagation algorithm can derive a specific variation for every $w_i$ and $b_i$ in each iteration. As a result, the training of a neural network will be completed and it can be used to make predictions \citep{rumelhart1986learning}.  
 
 \subsubsection{Applying neural network on inverse Kinematics}
 As for the structure of this neural network applied on inverse kinematics,the input should be 12 neurons since the rotation and translation have 12 elements totally. Similarly, the output layer has 5 neurons for $\theta_1...\theta_5$(ignoring the redundant sulotion). Experientially, the number of hidden layers should be comparitive to the number of neurons of input layer. Thus, the structure can be expressed as figure \ref{fig:IK_neural_network}. 
@@ -48,7 +48,7 @@ It turns out that the training time is near 3 hours even under many constrains, 
 \subsubsection{Conclusion and future study}
 It can be concluded from massive experiments that the training time and accuracy will rise significantly with the increasement of network complexity and data volume. It is a robust way to calculate the inverse kinematics for a complexe robot with diverse joints and it might be the most feasible appraoch when solutions are hard to find by analytical method. However, the choice of network structure and parameters adjustment can also be time-consuming as they are generally determined by practical experience.
 
-Actually, gradient descent is not an efficient algorithm to minimize the cost function when the shape of cost function is not quite smooth. Usually, it reachs the minimum point in a zigzage line (shown in figure  \ref{fig:slow}). In order to accelerate the training process, momentum gradient descent is applied in training neural networks. Compared with gradient descent, $\Delta w$ and $\Delta b$ in momentum algorithm are computed by considering the previous iteration and current iteration synthetically, relevant equations are presented below. Thus, the decreasing path will be smooth and more directily. This algorithm inspires me to opimize the neural network further.   
+Actually, gradient descent is not an efficient algorithm to minimize the cost function when the shape of cost function is not quite smooth. Usually, it reachs the minimum point in a zigzage line (shown in figure  \ref{fig:slow}). In order to accelerate the training process, momentum gradient descent is applied in training neural networks. Compared with gradient descent, $\Delta w$ and $\Delta b$ in momentum algorithm are computed by considering the previous iteration and current iteration synthetically, relevant equations are presented below \citep{qian1999momentum}. Thus, the decreasing path will be smooth and more directily. This algorithm inspires me to opimize the neural network further.   
 
 \begin{equation}
 \Delta w_i = \beta \Delta v_w + (1-\beta)\Delta w_{i-1}
