@@ -31,8 +31,8 @@ for q1 = Q1
                     
                     for n = 1:joints %% get 5 joint points from 1 set of q
                         table(n,:) = [a(n) alpha(n) d(n) theta(n)];
-                        HT(:,:,n) = DH_to_HT( a(n),alpha(n),d(n),theta(n) );
-                        H = H*HT(:,:,n);
+                        T(:,:,n) = dh2td( table(n, :) );
+                        H = H*T(:,:,n);
                         if n==4
                             Px(n+1)=H(1,4)+20*H(1,3); 
                             Py(n+1)=H(2,4)+20*H(2,3);

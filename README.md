@@ -1,5 +1,7 @@
 # RF_Report
 
+**The report file is report.pdf**
+
 The report consists of the latex files to generate the report and two folders,
 one (images) contains the images used in the latex report and the other (code)
 contains the code in matlab for the simulations.
